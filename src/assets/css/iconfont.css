@@ -1,0 +1,84 @@
+@font-face {
+  font-family: "iconfont"; /* Project id 4784018 */
+  src: url('//at.alicdn.com/t/c/font_4784018_0fovbujzyvqu.woff2?t=1734958620519') format('woff2'),
+       url('//at.alicdn.com/t/c/font_4784018_0fovbujzyvqu.woff?t=1734958620519') format('woff'),
+       url('//at.alicdn.com/t/c/font_4784018_0fovbujzyvqu.ttf?t=1734958620519') format('truetype'),
+       url('//at.alicdn.com/t/c/font_4784018_0fovbujzyvqu.svg?t=1734958620519#iconfont') format('svg');
+}
+
+.iconfont {
+  font-family: "iconfont" !important;
+ 
+}
+
+.icon-back:before {
+  content: "\e66a";
+}
+
+.icon-close:before {
+  content: "\e62b";
+}
+
+.icon-Down-:before {
+  content: "\ebb6";
+}
+
+.icon-kualianqiao:before {
+  content: "\e667";
+}
+
+.icon-arrow-up-down-line:before {
+  content: "\e749";
+}
+
+.icon-down1:before {
+  content: "\e615";
+}
+
+.icon-down2:before {
+  content: "\e69a";
+}
+
+.icon-down:before {
+  content: "\e613";
+}
+
+.icon-discord:before {
+  content: "\e66e";
+}
+
+.icon-github:before {
+  content: "\e603";
+}
+
+.icon-linkedin:before {
+  content: "\e60b";
+}
+
+.icon-instagram:before {
+  content: "\e6df";
+}
+
+.icon-tuite:before {
+  content: "\e604";
+}
+
+.icon-Right:before {
+  content: "\e612";
+}
+
+.icon-fuzhi:before {
+  content: "\e8b0";
+}
+
+.icon-duankailianjie:before {
+  content: "\e9c5";
+}
+
+.icon-_lianjie:before {
+  content: "\e657";
+}
+
+.icon-duoyuyan:before {
+  content: "\e659";
+}
