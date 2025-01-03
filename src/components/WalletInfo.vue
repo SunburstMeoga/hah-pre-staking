@@ -6,7 +6,7 @@
                     <div class="w-1/3 h-1 bg-#EAAE36 rounded-full"></div>
                 </div>
                 <div class="w-full flex justify-between items-center text-base mb-2">
-                    <div class="text-#00FFEA">{{ $t('wallet.address') }}：{{
+                    <div class="text-#A5A5A5">{{ $t('wallet.address') }}：{{
                         addressFilter($store.state.walletInfo.address)
                         || '-' }}</div>
                     <div class="icon iconfont icon-fuzhi text-white text-lg"

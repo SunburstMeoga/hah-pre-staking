@@ -10,7 +10,7 @@
         <div class="w-11/12 mx-auto c ">
             <h-loading :loadStatus="nodeListLoadStatus" @reload="getDelegateList" />
             <div v-if="nodeListLoadStatus === 'finished'">
-                <vote-node-card :dataList="nodeDataList" />
+                <vote-node-card :dataList="nodeDataList" :lockPeriod="lockPeriod" @handleHarvest="handleHarvest" />
             </div>
         </div>
 
@@ -40,7 +40,8 @@ export default {
             ordinary: '-',
             nodeListLoadStatus: 'loading',
 
-            counts: {}
+            counts: {},
+            lockPeriod: ''
         }
     },
     activated() {
@@ -50,7 +51,8 @@ export default {
         // console.log('init ........')
         // console.log('登录状态', localStorage.getItem('connectStatus'))
         // this.getNodeList()
-        this.getDelegateList()
+        // this.getDelegateList()
+        this.getUserDeposit()
     },
     computed: {
         //总投票量
@@ -84,7 +86,69 @@ export default {
     },
     methods: {
         amountFormat,
+        //点击收割按钮
+        async handleHarvest(item) {
+            console.log(item)
+            if (item.lockPeriod > 0) {
+                Toast.fail('鎖倉期未結束，無法收割');
+                return
+            }
+            Toast.loading({
+                forbidClick: true,
+                duration: 0
+            });
+            let web3Contract = new this.Web3.eth.Contract(this.Config.pre_staking_abi, this.Config.pre_staking_addr)
+            web3Contract.methods.withdrawPrincipal().send({
+                from: JSON.parse(localStorage.getItem('walletInfo')).address,
+            }).then(res => {
+                this.getUserDeposit()
+                Toast.fail('收割成功');
+                console.log('res', res)
+            }).catch(err => {
+                Toast.fail('收割失敗，請重試');
+                console.log('err', err)
+            })
+        },
+        //查询用户的存款信息
+        async getUserDeposit() {
 
+            let web3Contract = new this.Web3.eth.Contract(this.Config.pre_staking_abi, this.Config.pre_staking_addr)
+
+            try {
+                this.nodeListLoadStatus = 'loading'
+                // showMore: false,
+                //     countDown: '2025-01-27', 倒计时
+                //     count: '564', 数量
+                //     produced: '345', 已产出
+                //     collection: '876', 待领取
+                //     received: '45' , 已收获
+                //     lockPeriod: ''，锁仓期
+                let obj = {}
+                console.log(JSON.parse(localStorage.getItem('walletInfo')).address)
+                let depositsRes = await web3Contract.methods.deposits(JSON.parse(localStorage.getItem('walletInfo')).address).call();
+                let calculateInterestRes = await web3Contract.methods.calculateInterest(JSON.parse(localStorage.getItem('walletInfo')).address).call();
+                let lockPeriodRes = await web3Contract.methods.LOCK_PERIOD().call();
+                obj['startTime'] = depositsRes.startTime //存款开始时间戳
+                obj['count'] = depositsRes.amount //存款数量 
+                obj['produced'] = '0.00'
+                obj['collection'] = calculateInterestRes //⽤户可提取的利息
+                obj['received'] = depositsRes.withdrawnInterest //已领取的利息数量
+                obj['showMore'] = false
+                obj['lockPeriod'] = lockPeriodRes //锁仓期（秒）
+                this.lockPeriod = lockPeriodRes
+                this.nodeDataList[0] = obj
+                this.nodeListLoadStatus = 'finished'
+                console.log(depositsRes, calculateInterestRes, lockPeriodRes)
+            } catch (err) {
+                console.log(err)
+                this.nodeListLoadStatus = 'error'
+            }
+
+        },
+        //收割
+        async userHarvest() {
+
+        },
         //投票节点列表数据
         async getDelegateList() {
             this.nodeListLoadStatus = 'loading'

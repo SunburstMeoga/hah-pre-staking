@@ -13,15 +13,15 @@ export default new Router({
       name: 'home',
       component: Home
     },
-    {
-      path: '/node/:address',
-      name: 'node',
-      component: Details
-    },
-    {
-      path: '/cross-chain-bridge',
-      name: 'bridge',
-      component: CrossChainBridge
-    }
+    // {
+    //   path: '/node/:address',
+    //   name: 'node',
+    //   component: Details
+    // },
+    // {
+    //   path: '/cross-chain-bridge',
+    //   name: 'bridge',
+    //   component: CrossChainBridge
+    // }
   ]
 })
