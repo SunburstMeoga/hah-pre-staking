@@ -52,6 +52,8 @@ export default {
     if (!window.ethereum || !this.Web3.currentProvider._state.isConnected) {
       this.showDialog = true
       localStorage.removeItem('connectStatus')
+      localStorage.removeItem('walletInfo')
+      return
     }
     this.getChainId()
     // const web3 = this.Web3(window.ethereum)
