@@ -34,7 +34,7 @@
                     <div
                         class="w-full flex justify-between items-center text-#A5A5A5 text-sm h-11 border-b border-dashed border-black">
                         <div class="">{{ $t('newWord.produced') }}</div>
-                        <div class="">{{ item.collection }} HAH</div>
+                        <div class="">{{ parseFloat(item.collection) + parseFloat(item.received) }} HAH</div>
                     </div>
                     <div
                         class="w-full flex justify-between items-center text-#A5A5A5 text-sm h-11 border-b border-dashed border-black">
