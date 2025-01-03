@@ -49,7 +49,7 @@ export default {
     }
   },
   created() {
-    if (!window.ethereum) {
+    if (!window.ethereum || !this.Web3.currentProvider._state.isConnected) {
       this.showDialog = true
     }
     this.getChainId()
