@@ -8,7 +8,7 @@
             <module-title :title="$t('home.nodeList')" :count="$t('home.totalNode', { count: delegateCount })" />
         </div>
         <div class="w-11/12 mx-auto c ">
-            <h-loading :loadStatus="nodeListLoadStatus" @reload="getDelegateList" />
+            <h-loading :loadStatus="nodeListLoadStatus" @reload="getUserDeposit" />
             <div v-if="nodeListLoadStatus === 'finished'">
                 <vote-node-card :dataList="nodeDataList" :lockPeriod="lockPeriod" @handleHarvest="handleHarvest" />
             </div>
