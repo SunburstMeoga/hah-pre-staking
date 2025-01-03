@@ -19,11 +19,11 @@
                 <div class="flex justify-between items-center w-9/12 mb-6">
                     <div class="w-1/2 flex flex-col justify-start items-start">
                         <div class="text-white mb-2">{{ $t('wallet.votedAmount') }}</div>
-                        <div class="text-#EAAE36 text-2xl font-light">{{ item.collection }} HAH</div>
+                        <div class="text-#EAAE36 text-2xl font-light">{{ item.received }} HAH</div>
                     </div>
                     <div class="w-1/2 flex flex-col justify-start items-start ml-8">
                         <div class="text-white mb-2 ">{{ $t('newWord.Waitingforcollection') }}</div>
-                        <div class="text-#EAAE36 text-2xl font-light">{{ item.received }} HAH</div>
+                        <div class="text-#EAAE36 text-2xl font-light">{{ item.collection }} HAH</div>
                     </div>
                 </div>
                 <div class="duration-150 transition-all transform ease-linear overflow-hidden flex flex-col justify-start items-center w-9/12"
