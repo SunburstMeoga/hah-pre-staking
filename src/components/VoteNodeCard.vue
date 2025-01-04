@@ -11,7 +11,7 @@
             addressFilter($store.state.walletInfo.address)
             || '-' }}</div>
                     <div class="flex justify-end items-center -mr-6">
-                        <div class="icon iconfont icon-Right text-lg text-#EAAE36 duration-150 transition transform ease-linear "
+                        <div class="icon iconfont icon-Right text-lg text-#EAAE36 duration-100 transition transform ease-linear "
                             :class="`${item.showMore ? 'rotate-90' : 'rotate-0'}`" @click.stop="handleShowMore(index)">
                         </div>
                     </div>
@@ -26,7 +26,7 @@
                         <div class="text-#EAAE36 text-2xl font-light">{{ item.collection }} HAH</div>
                     </div>
                 </div>
-                <div class="duration-150 transition-all transform ease-linear overflow-hidden flex flex-col justify-start items-center w-9/12"
+                <div class="duration-100 transition-all transform ease-linear overflow-hidden flex flex-col justify-start items-center w-9/12"
                     :class="{
             'max-h-96 mb-5': item.showMore,
             'max-h-0': !item.showMore
