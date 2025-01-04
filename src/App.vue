@@ -49,7 +49,7 @@ export default {
     }
   },
   created() {
-    if (!window.ethereum || !this.Web3.currentProvider._state.isConnected) {
+    if (!window.ethereum) {
       this.showDialog = true
       localStorage.removeItem('connectStatus')
       localStorage.removeItem('walletInfo')
