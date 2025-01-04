@@ -155,7 +155,7 @@ const zh = {
         quantity: '數量',
         produced: '已產出',
         Waitingforcollection: '待領取',
-        Harvest: '收割'
+        Harvest: '收穫'
     }
 }
 
