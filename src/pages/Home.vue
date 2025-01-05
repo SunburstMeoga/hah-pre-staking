@@ -52,7 +52,9 @@ export default {
         // console.log('登录状态', localStorage.getItem('connectStatus'))
         // this.getNodeList()
         // this.getDelegateList()
-        this.getUserDeposit()
+        setTimeout(() => {
+            this.getUserDeposit()
+        }, 3000);
     },
     computed: {
         //总投票量
