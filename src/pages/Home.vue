@@ -95,7 +95,7 @@ export default {
                 duration: 0
             });
             let web3Contract = new this.Web3.eth.Contract(this.Config.pre_staking_abi, this.Config.pre_staking_addr)
-            let calculateInterestRes = await web3Contract.methods.calculateInterest(JSON.parse(localStorage.getItem('walletInfo')).address).call();
+            let calculateInterestRes = await web3Contract.methods.calculateInterest(this.$store.state.walletInfo.address).call();
             console.log('calculateInterestRes', calculateInterestRes)
             if (item.lockPeriod > 0) {
                 if (calculateInterestRes === 0 || calculateInterestRes === '0') {
@@ -103,7 +103,7 @@ export default {
                 } else {
                     //提取利息
                     web3Contract.methods.withdrawInterest().send({
-                        from: JSON.parse(localStorage.getItem('walletInfo')).address,
+                        from: this.$store.state.walletInfo.address,
                     }).then(res => {
                         this.getUserDeposit()
                         Toast.fail('收穫成功');
@@ -117,7 +117,7 @@ export default {
             }
 
             web3Contract.methods.withdrawPrincipal().send({ //領取利息+本金
-                from: JSON.parse(localStorage.getItem('walletInfo')).address,
+                from: this.$store.state.walletInfo.address,
             }).then(res => {
                 this.getUserDeposit()
                 Toast.fail('收穫成功');
@@ -142,9 +142,9 @@ export default {
                 //     received: '45' , 已收获
                 //     lockPeriod: ''，锁仓期
                 let obj = {}
-                console.log(JSON.parse(localStorage.getItem('walletInfo')).address)
-                let depositsRes = await web3Contract.methods.deposits(JSON.parse(localStorage.getItem('walletInfo')).address).call();
-                let calculateInterestRes = await web3Contract.methods.calculateInterest(JSON.parse(localStorage.getItem('walletInfo')).address).call();
+                console.log(this.$store.state.walletInfo.address)
+                let depositsRes = await web3Contract.methods.deposits(this.$store.state.walletInfo.address).call();
+                let calculateInterestRes = await web3Contract.methods.calculateInterest(this.$store.state.walletInfo.address).call();
                 let lockPeriodRes = await web3Contract.methods.LOCK_PERIOD().call();
                 obj['startTime'] = depositsRes.startTime //存款开始时间戳
                 obj['count'] = depositsRes.amount //存款数量 
