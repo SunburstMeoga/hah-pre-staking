@@ -10,7 +10,6 @@
         <div class="w-11/12 mx-auto c ">
             <div class="text-red-500" v-if="nodeListLoadStatus === 'error'">
                 {{ errText }}
-                {{ $store.state.walletInfo.address }}
             </div>
             <h-loading :loadStatus="nodeListLoadStatus" @reload="getUserDeposit" />
             <div v-if="nodeListLoadStatus === 'finished'">
