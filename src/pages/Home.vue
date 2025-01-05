@@ -8,7 +8,7 @@
             <module-title :title="$t('home.nodeList')" :count="$t('home.totalNode', { count: delegateCount })" />
         </div>
         <div class="w-11/12 mx-auto c ">
-            <div class="text-red-500">
+            <div class="text-red-500" v-if="nodeListLoadStatus === 'error'">
                 {{ errText }}
                 {{ $store.state.walletInfo.address }}
             </div>
