@@ -162,7 +162,10 @@ export default {
                 this.lockPeriod = lockPeriodRes
                 this.nodeDataList[0] = obj
                 this.nodeListLoadStatus = 'finished'
-                console.log(depositsRes, calculateInterestRes, lockPeriodRes)
+                console.log('deposits', depositsRes,)
+                console.log('calculateInterest', calculateInterestRes)
+                console.log('lockPeriod', lockPeriodRes)
+
             } catch (err) {
                 console.log(err)
                 this.errText = err

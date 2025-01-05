@@ -41,15 +41,15 @@
                         <div class="">存款時間</div>
                         <div class="">{{ timeFormat(item.startTime) }}</div>
                     </div>
-                    <div
+                    <!-- <div
                         class="w-full flex justify-between items-center text-#A5A5A5 text-sm h-11 border-b border-dashed border-black">
                         <div class="">{{ $t('newWord.quantity') }}</div>
                         <div class="">{{ item.count }} HAH</div>
-                    </div>
+                    </div> -->
                     <div
                         class="w-full flex justify-between items-center text-#A5A5A5 text-sm h-11 border-b border-dashed border-black">
                         <div class="">鎖倉量</div>
-                        <div class="">100000 HAH</div>
+                        <div class="">{{ item.count }} HAH</div>
                     </div>
                     <div
                         class="w-full flex justify-between items-center text-#A5A5A5 text-sm h-11 border-b border-dashed border-black">
