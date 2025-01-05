@@ -49,7 +49,7 @@
                     <div
                         class="w-full flex justify-between items-center text-#A5A5A5 text-sm h-11 border-b border-dashed border-black">
                         <div class="">鎖倉量</div>
-                        <div class="">10000 HAH</div>
+                        <div class="">100000 HAH</div>
                     </div>
                     <div
                         class="w-full flex justify-between items-center text-#A5A5A5 text-sm h-11 border-b border-dashed border-black">
