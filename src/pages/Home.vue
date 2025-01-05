@@ -86,26 +86,44 @@ export default {
     },
     methods: {
         amountFormat,
-        //点击收割按钮
+        //点击收穫按钮
         async handleHarvest(item) {
             console.log(item)
-            if (item.lockPeriod > 0) {
-                Toast.fail('鎖倉期未結束，無法收割');
-                return
-            }
+
             Toast.loading({
                 forbidClick: true,
                 duration: 0
             });
             let web3Contract = new this.Web3.eth.Contract(this.Config.pre_staking_abi, this.Config.pre_staking_addr)
-            web3Contract.methods.withdrawPrincipal().send({
+            let calculateInterestRes = await web3Contract.methods.calculateInterest(JSON.parse(localStorage.getItem('walletInfo')).address).call();
+            console.log('calculateInterestRes', calculateInterestRes)
+            if (item.lockPeriod > 0) {
+                if (calculateInterestRes === 0 || calculateInterestRes === '0') {
+                    Toast.fail('暂无可领取的利息');
+                } else {
+                    //提取利息
+                    web3Contract.methods.withdrawInterest().send({
+                        from: JSON.parse(localStorage.getItem('walletInfo')).address,
+                    }).then(res => {
+                        this.getUserDeposit()
+                        Toast.fail('收穫成功');
+                        console.log('res', res)
+                    }).catch(err => {
+                        Toast.fail('收穫失敗，請重試');
+                        console.log('err', err)
+                    })
+                }
+                return
+            }
+
+            web3Contract.methods.withdrawPrincipal().send({ //領取利息+本金
                 from: JSON.parse(localStorage.getItem('walletInfo')).address,
             }).then(res => {
                 this.getUserDeposit()
-                Toast.fail('收割成功');
+                Toast.fail('收穫成功');
                 console.log('res', res)
             }).catch(err => {
-                Toast.fail('收割失敗，請重試');
+                Toast.fail('收穫失敗，請重試');
                 console.log('err', err)
             })
         },
@@ -145,7 +163,7 @@ export default {
             }
 
         },
-        //收割
+        //收穫
         async userHarvest() {
 
         },
