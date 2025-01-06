@@ -5,7 +5,7 @@ const config = {
     erc20_abi: abi,
     cross_abi: cross_abi,
     pre_staking_abi: pre_staking_abi,
-    pre_staking_addr: '0x0709A6FB264b7729e876AeabcF59B4CA5E2763F3',
+    pre_staking_addr: '0xc60Ad1e2AAb17FC047AD17f71B9382316D94E7dA',
     con_addr: '0x00000000000000000000000000000000000000A1',
     unit: 'Gwei',
     amount: '10',
