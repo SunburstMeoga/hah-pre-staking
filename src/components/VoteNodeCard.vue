@@ -19,11 +19,11 @@
                 <div class="flex justify-between items-center w-9/12 mb-6">
                     <div class="w-1/2 flex flex-col justify-start items-start">
                         <div class="text-white mb-2">{{ $t('wallet.votedAmount') }}</div>
-                        <div class="text-#EAAE36 text-2xl font-light">{{ item.received }} HAH</div>
+                        <div class="text-#EAAE36 text-2xl font-light">{{ formatAmount(item.received) }} HAH</div>
                     </div>
                     <div class="w-1/2 flex flex-col justify-start items-start ml-8">
                         <div class="text-white mb-2 ">{{ $t('newWord.Waitingforcollection') }}</div>
-                        <div class="text-#EAAE36 text-2xl font-light">{{ item.collection }} HAH</div>
+                        <div class="text-#EAAE36 text-2xl font-light">{{ formatAmount(item.collection) }} HAH</div>
                     </div>
                 </div>
                 <div class="duration-100 transition-all transform ease-linear overflow-hidden flex flex-col justify-start items-center w-9/12"
@@ -34,7 +34,8 @@
                     <div
                         class="w-full flex justify-between items-center text-#A5A5A5 text-sm h-11 border-b border-dashed border-black">
                         <div class="">{{ $t('newWord.produced') }}</div>
-                        <div class="">{{ parseFloat(item.collection) + parseFloat(item.received) }} HAH</div>
+                        <div class="">{{ formatAmount(parseFloat(item.collection) + parseFloat(item.received)) }} HAH
+                        </div>
                     </div>
                     <div
                         class="w-full flex justify-between items-center text-#A5A5A5 text-sm h-11 border-b border-dashed border-black">
@@ -59,7 +60,7 @@
                     <div
                         class="w-full flex justify-between items-center text-#A5A5A5 text-sm h-11 border-b border-dashed border-black">
                         <div class="">{{ $t('newWord.Countdowntounlockday') }}</div>
-                        <div>{{ countdown }}</div>
+                        <div>{{ item.countdown || "00:00:00" }}</div>
                     </div>
 
 
@@ -92,6 +93,7 @@ export default {
         return {
             countdown: "00:00:00", // 初始化倒计时显示
             timer: null,
+            timers: {}, // 保存每个定时器的引用
         }
     },
     computed: {
@@ -151,14 +153,57 @@ export default {
             },
         },
     },
+    mounted() {
+        this.dataList.forEach((item, index) => {
+            this.startCountdownForItem(item, index);
+        });
+    },
     beforeDestroy() {
         // 组件销毁前清除定时器，避免内存泄漏
-        if (this.timer) {
-            clearInterval(this.timer);
-        }
+        Object.values(this.timers).forEach(clearInterval); // 清除所有定时器
     },
     methods: {
         addressFilter, amountFormat, timeFormat,
+        calculateCountdown(startTime, lockPeriod) {
+            // 确保 startTime 和 lockPeriod 是数字
+            const start = parseInt(startTime, 10); // 转为整数
+            const lock = parseInt(lockPeriod, 10); // 转为整数
+
+            const now = Math.floor(Date.now() / 1000); // 当前时间戳（秒）
+            const endTime = start + lock; // 计算结束时间戳
+
+            if (now >= endTime) {
+                return "00:00:00"; // 如果倒计时已结束
+            }
+
+            // 计算剩余时间
+            const remainingTime = endTime - now;
+            const hours = String(Math.floor(remainingTime / 3600)).padStart(2, "0");
+            const minutes = String(Math.floor((remainingTime % 3600) / 60)).padStart(2, "0");
+            const seconds = String(remainingTime % 60).padStart(2, "0");
+
+            return `${hours}:${minutes}:${seconds}`;
+        },
+        // 启动倒计时
+        startCountdownForItem(item, index) {
+            if (this.timers[index]) {
+                clearInterval(this.timers[index]); // 清除已有定时器
+            }
+
+            this.timers[index] = setInterval(() => {
+                const newCountdown = this.calculateCountdown(item.startTime, this.lockPeriod);
+                // 仅更新 countdown 字段，保留其他字段
+                this.$set(this.dataList[index], "countdown", newCountdown);
+            }, 1000);
+        },
+
+        //格式化显示金额
+        formatAmount(amount) {
+            let etherAmount = this.Web3.utils.fromWei(amount.toString(), 'ether');
+
+            let formattedEtherAmount = parseFloat(etherAmount).toFixed(4) // 保留4位小数
+            return formattedEtherAmount
+        },
         //点击收割按钮
         handleHarvest(item) {
             this.$emit('handleHarvest', item)
