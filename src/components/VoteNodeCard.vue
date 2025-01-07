@@ -199,10 +199,19 @@ export default {
 
         //格式化显示金额
         formatAmount(amount) {
-            let etherAmount = this.Web3.utils.fromWei(amount.toString(), 'ether');
+            // 确保 `amount` 是字符串类型，以便进行操作
+            const amountStr = amount.toString();
 
-            let formattedEtherAmount = parseFloat(etherAmount).toFixed(4) // 保留4位小数
-            return formattedEtherAmount
+            // 检查是否包含小数点，处理小数部分
+            const sanitizedAmount = amountStr.includes(".")
+                ? amountStr.split(".")[0] // 去掉小数部分，仅保留整数
+                : amountStr;
+
+            // 将处理后的整数转换为 Ether
+            let etherAmount = this.Web3.utils.fromWei(sanitizedAmount, "ether");
+
+            // 保留 4 位小数，用于显示
+            return parseFloat(etherAmount).toFixed(4);
         },
         //点击收割按钮
         handleHarvest(item) {
