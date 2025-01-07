@@ -95,7 +95,7 @@ export default {
         //点击收穫按钮
         async handleHarvest(item) {
             console.log(item)
-
+            return
             Toast.loading({
                 forbidClick: true,
                 duration: 0
