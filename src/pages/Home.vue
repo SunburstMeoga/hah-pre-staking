@@ -11,7 +11,7 @@
             <!-- <div class="text-red-500" v-if="nodeListLoadStatus === 'error'">
                 {{ errText }}
             </div> -->
-            <h-loading :loadStatus="nodeListLoadStatus" @reload="getUserDeposit" />
+            <h-loading :errorText="errorText" :loadStatus="nodeListLoadStatus" @reload="getUserDeposit" />
             <div v-if="nodeListLoadStatus === 'finished'">
                 <vote-node-card :dataList="nodeDataList" :lockPeriod="lockPeriod" @handleHarvest="handleHarvest" />
             </div>
@@ -42,7 +42,7 @@ export default {
             rewardMode: '-',
             ordinary: '-',
             nodeListLoadStatus: 'loading',
-
+            errorText: '',
             counts: {},
             lockPeriod: '',
             errText: ''
@@ -167,8 +167,21 @@ export default {
                 console.log('lockPeriod', lockPeriodRes)
 
             } catch (err) {
-                console.log(err)
-                this.errText = err
+                const errorString = err.message;
+
+                // 找到 JSON 部分
+                const jsonPart = errorString.substring(errorString.indexOf('{'));
+
+                // 转换为 JSON 对象
+                const errorData = JSON.parse(jsonPart);
+
+                // 获取 code 值
+                console.log('Error Code:', errorData.code); // 输出: 3
+                if (errorData.code === 3) {
+                    this.errorText = '該地址暫無投票'
+                } else {
+                    this.errorText = this.$t('loadStatus.error')
+                }
                 this.nodeListLoadStatus = 'error'
             }
 

@@ -16,7 +16,7 @@
                 <div class="icon iconfont mb-2 text-4xl sm:text-6xl icon iconfont icon-error" />
             </div>
             <div>
-                {{ $t('loadStatus.error') }}
+                {{ errorText }}
             </div>
         </div>
     </div>
@@ -29,6 +29,10 @@ export default {
             type: String,
             default: 'loading'
         },
+        errorText: {
+            type: String,
+            default: ''
+        }
     },
     methods: {
         reload() {
