@@ -54,7 +54,7 @@
                     </div>
                     <div
                         class="w-full flex justify-between items-center text-#A5A5A5 text-sm h-11 border-b border-dashed border-black">
-                        <div class="">年化</div>
+                        <div class="">月化</div>
                         <div class="">15%</div>
                     </div>
                     <div

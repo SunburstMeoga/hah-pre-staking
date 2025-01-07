@@ -155,8 +155,8 @@ export default {
                 obj['startTime'] = depositsRes.startTime //存款开始时间戳
                 obj['count'] = depositsRes.amount //存款数量 
                 obj['produced'] = '0.00'
-                obj['collection'] = calculateInterestRes //⽤户可提取的利息
-                obj['received'] = depositsRes.withdrawnInterest //已领取的利息数量
+                obj['collection'] = parseInt(calculateInterestRes) / 100 //⽤户可提取的利息
+                obj['received'] = parseInt(depositsRes.withdrawnInterest) / 100 //已领取的利息数量
                 obj['showMore'] = false
                 obj['lockPeriod'] = lockPeriodRes //锁仓期（秒）
                 this.lockPeriod = lockPeriodRes
