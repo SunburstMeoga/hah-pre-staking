@@ -65,7 +65,7 @@
 
 
                 </div>
-                <div class="w-full text-#303030 flex justify-center items-center bg-gray-600 py-2"
+                <div class="w-full text-#303030 flex justify-center items-center bg-#EAAE36 py-2"
                     @click.stop="handleHarvest(item)">
                     {{ $t('newWord.Harvest') }}</div>
             </div>
