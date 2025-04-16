@@ -95,7 +95,6 @@ export default {
         //点击收穫按钮
         async handleHarvest(item) {
             console.log(item)
-            // return
             Toast.loading({
                 forbidClick: true,
                 duration: 0
@@ -103,7 +102,27 @@ export default {
             let web3Contract = new this.Web3.eth.Contract(this.Config.pre_staking_abi, this.Config.pre_staking_addr)
             let calculateInterestRes = await web3Contract.methods.calculateInterest(this.$store.state.walletInfo.address).call();
             console.log('calculateInterestRes', calculateInterestRes)
-            if (item.lockPeriod > 0) {
+
+            // 获取当前时间戳（秒）
+            const currentTime = Math.floor(Date.now() / 1000);
+            // 计算锁仓结束时间
+            const lockEndTime = parseInt(item.startTime) + parseInt(item.lockPeriod);
+
+            // 判断是否已过锁仓期
+            if (currentTime >= lockEndTime) {
+                // 已过锁仓期，可以提取本金和利息
+                web3Contract.methods.withdrawPrincipal().send({ //領取利息+本金
+                    from: this.$store.state.walletInfo.address,
+                }).then(res => {
+                    this.getUserDeposit()
+                    Toast.fail('收穫成功');
+                    console.log('res', res)
+                }).catch(err => {
+                    Toast.fail('收穫失敗，請重試');
+                    console.log('err', err)
+                })
+            } else {
+                // 未过锁仓期，只能提取利息
                 if (calculateInterestRes === 0 || calculateInterestRes === '0') {
                     Toast.fail('暂无可领取的利息');
                 } else {
@@ -119,20 +138,8 @@ export default {
                         console.log('err', err)
                     })
                 }
-                return
             }
-
-            web3Contract.methods.withdrawPrincipal().send({ //領取利息+本金
-                from: this.$store.state.walletInfo.address,
-            }).then(res => {
-                this.getUserDeposit()
-                Toast.fail('收穫成功');
-                console.log('res', res)
-            }).catch(err => {
-                Toast.fail('收穫失敗，請重試');
-                console.log('err', err)
-            })
-        },
+        }
         //查询用户的存款信息
         async getUserDeposit() {
 
