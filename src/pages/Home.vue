@@ -139,7 +139,7 @@ export default {
                     })
                 }
             }
-        }
+        },
         //查询用户的存款信息
         async getUserDeposit() {
 
